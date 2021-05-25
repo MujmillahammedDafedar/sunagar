@@ -1,32 +1,41 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:connectivity/connectivity.dart';
 
-class NoInternet extends StatefulWidget {
-  @override
-  _NoInternetState createState() => _NoInternetState();
-}
+class MyConnectivity {
+  MyConnectivity._internal();
 
-class _NoInternetState extends State<NoInternet> {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('No internet connection !', style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24.0
+  static final MyConnectivity _instance = MyConnectivity._internal();
 
-          ),),
-          Center(
-            child: Text('Please check your internet connection and try again', style: TextStyle(
-                fontSize: 18.0
+  static MyConnectivity get instance => _instance;
 
-            ),),
-          ),
+  Connectivity connectivity = Connectivity();
 
+  StreamController controller = StreamController.broadcast();
 
-        ],
-      ),
-    );
+  Stream get myStream => controller.stream;
+
+  void initialise() async {
+    ConnectivityResult result = await connectivity.checkConnectivity();
+    _checkStatus(result);
+    connectivity.onConnectivityChanged.listen((result) {
+      _checkStatus(result);
+    });
   }
+
+  void _checkStatus(ConnectivityResult result) async {
+    bool isOnline = false;
+    try {
+      final result = await InternetAddress.lookup('https://www.sunagar.com/');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        isOnline = true;
+      } else
+        isOnline = false;
+    } on SocketException catch (_) {
+      isOnline = false;
+    }
+    controller.sink.add({result: isOnline});
+  }
+
+  void disposeStream() => controller.close();
 }
