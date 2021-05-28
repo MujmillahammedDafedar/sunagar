@@ -16,9 +16,7 @@ class _StartingPointState extends State<StartingPoint> {
         backgroundColor: Colors.blue.shade900,
         styleTextUnderTheLoader: new TextStyle(),
         photoSize: 100.0,
-      //  onClick: ()=>print("Flutter Egypt"),
         loaderColor: Colors.white
-
     );
   }
 }
