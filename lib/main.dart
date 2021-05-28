@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  late String string;
 
   @override
   void initState() {
@@ -33,16 +33,29 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var check = ConnectivityResult.none;
+    switch (Provider.of<MyState>(context, listen: false).result.keys.toList()[0]) {
+      case ConnectivityResult.none:
+        string = "off";
+        break;
+      case ConnectivityResult.mobile:
+        string = "on";
+        break;
+      case ConnectivityResult.wifi:
+        string = "on";
+    }
+
 
     return Consumer<MyState>(
+
       builder: (context, data, _child) =>  SafeArea(
         child: Scaffold(
           backgroundColor: Colors.blue.shade900,
-               body : (data.result == check) ? Center(
+               // ignore: unrelated_type_equality_checks
+               body : (string == 'off') ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+
                       Icon(
                         Icons.signal_cellular_connected_no_internet_4_bar_rounded,
                         size: 45.0,

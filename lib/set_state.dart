@@ -38,7 +38,7 @@ class MyState extends ChangeNotifier{
     _connectivity.myStream.listen((source) {
      source = source;
       print(source);
-      //changeState();
+      changeState();
     });
 
   }
