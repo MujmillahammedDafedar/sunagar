@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:sunagar/splashscreen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'noInternet.dart';
@@ -9,7 +10,7 @@ import 'noInternet.dart';
 void main() => runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     color: Colors.blue.shade900,
-    home: HomePage()));
+    home: StartingPoint()));
 
 class HomePage extends StatefulWidget {
   @override
@@ -55,11 +56,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.signal_cellular_connected_no_internet_4_bar_rounded,
-                      size: 45.0,
-                      color: Colors.white,
-                    ),
+                    Image.asset('assets/nonet2.png', width: 200.0,),
                     SizedBox(
                       height: 5.0,
                     ),
